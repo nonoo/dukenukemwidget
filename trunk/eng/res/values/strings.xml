@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Duke Nukem Widget</string>
+<string name="app_description">Plays a random Duke Nukem quote</string>
+</resources>
