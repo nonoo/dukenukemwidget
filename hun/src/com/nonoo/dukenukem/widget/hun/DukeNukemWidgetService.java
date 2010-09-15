@@ -140,6 +140,9 @@ public class DukeNukemWidgetService extends Service implements OnCompletionListe
 		        			}
 	
 		        			if( mediaPlayerNum == 0 || System.currentTimeMillis() - startTime > 10000 ) {
+		        				if( System.currentTimeMillis() - startTime > 10000 )
+		        					mediaPlayerNum = 0;
+
 			        			views.setImageViewResource(R.id.button, R.drawable.a001);
 			        			updateAppWidgets( views, appWidgetManager );
 			        			AnimatorThread = null;
