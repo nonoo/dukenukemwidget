@@ -7,15 +7,18 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnErrorListener;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.RemoteViews;
 
-public class DukeNukemWidgetService extends Service implements OnCompletionListener {
+public class DukeNukemWidgetService extends Service implements OnCompletionListener, OnErrorListener {
 
 	private static final int MAXMEDIAPLAYERS = 3;
+	private static final int ANIMATIONWAIT = 100;
 	
 	private int mediaPlayerNum = 0;
-	private MediaPlayer[] MediaPlayers = new MediaPlayer[MAXMEDIAPLAYERS];
+	private AnimatorThreadClass AnimatorThread;
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -113,26 +116,74 @@ public class DukeNukemWidgetService extends Service implements OnCompletionListe
 			case 79: soundRes = R.raw.whrsit05; break;
 			}
 	
-			for( int i = 0; i < MAXMEDIAPLAYERS; i++ )
-			{
-				if( MediaPlayers[i] == null )
-				{
-					
-					MediaPlayers[i] = MediaPlayer.create( getApplicationContext(), soundRes );
-					MediaPlayers[i].setOnCompletionListener( this );
-					MediaPlayers[i].start();
-					break;
-				}
-			}
+			MediaPlayer mp = MediaPlayer.create( getApplicationContext(), soundRes );
+			mp.setOnCompletionListener( this );
+			mp.setOnErrorListener( this );
+			mp.start();
+
+	        final RemoteViews views = new RemoteViews( getApplicationContext().getPackageName(), R.layout.main );
+	        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance( getApplicationContext() );
+	        int appWidgetId = intent.getExtras().getInt( AppWidgetManager.EXTRA_APPWIDGET_ID );
+
+	        if( AnimatorThread == null ) {
+		        AnimatorThread = new AnimatorThreadClass() {
+
+		        	public void run() {
+	        			Log.d("thread", "start - " + mediaPlayerNum);	
+
+	        			while( 1 == 1 ) {
+
+		        			try {
+		        				sleep( ANIMATIONWAIT );
+		        			} catch (Exception e) {
+		        				break;
+		        			}
+	
+		        			if( mediaPlayerNum == 0 || System.currentTimeMillis() - startTime > 10000 ) {
+			        			views.setImageViewResource(R.id.button, R.drawable.a001);
+			        			updateAppWidgets( views, appWidgetManager );
+			        			AnimatorThread = null;
+			        			Log.d("thread", "end - " + mediaPlayerNum);	
+			        			break;
+		        			}
+	
+		        			Log.d("thread", "run - " + mediaPlayerNum);	
+
+		        			views.setImageViewResource(R.id.button, R.drawable.a002);
+		        			updateAppWidgets( views, appWidgetManager );
+	
+		        			try {
+		        				sleep( ANIMATIONWAIT );
+		        			} catch (Exception e) {
+		        				break;
+		        			}
+	
+		        			views.setImageViewResource(R.id.button, R.drawable.a003);
+		        			updateAppWidgets( views, appWidgetManager );
+	
+		        			try {
+		        				sleep( ANIMATIONWAIT );
+		        			} catch (Exception e) {
+		        				break;
+		        			}
+	
+		        			views.setImageViewResource(R.id.button, R.drawable.a004);
+		        			updateAppWidgets( views, appWidgetManager );
+		        		}
+		        	}
+		        };
+	        }
+	        if( !AnimatorThread.isAlive() ) {
+	        	AnimatorThread.init( appWidgetId );
+	        	AnimatorThread.start();
+	        }
+	        else {
+	        	if( AnimatorThread.appWidgetIds.indexOf( appWidgetId ) == -1 )
+	        		AnimatorThread.appWidgetIds.add( appWidgetId );
+	        }
+			
 			mediaPlayerNum++;
 		}
-
-        RemoteViews views = new RemoteViews( getApplicationContext().getPackageName(), R.layout.main );
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance( getApplicationContext() );
-        int appWidgetId = intent.getExtras().getInt( AppWidgetManager.EXTRA_APPWIDGET_ID );
-
-        views.setImageViewResource(R.id.button, R.drawable.a003);
-        appWidgetManager.updateAppWidget( appWidgetId, views );
 
 		super.onStart( intent, startId );
 	}
@@ -140,12 +191,14 @@ public class DukeNukemWidgetService extends Service implements OnCompletionListe
 	@Override
 	public void onCompletion( MediaPlayer mp ) {
 		mediaPlayerNum--;
-		for( int i = 0; i < MAXMEDIAPLAYERS; i++ )
-		{
-			if( MediaPlayers[i] == mp )
-				MediaPlayers[i] = null;
-		}
 		mp.release();
+		Log.d("mediaplayer", "completed - " + mediaPlayerNum);	
 		//Toast.makeText(getApplicationContext(), "release", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public boolean onError( MediaPlayer mp, int arg1, int arg2 ) {
+		onCompletion( mp );
+		return false;
 	}
 }
