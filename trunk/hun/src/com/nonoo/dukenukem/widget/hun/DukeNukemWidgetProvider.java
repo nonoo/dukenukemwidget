@@ -11,6 +11,12 @@ import android.widget.RemoteViews;
 public class DukeNukemWidgetProvider extends AppWidgetProvider {
 
 	@Override
+	public void onDisabled(Context context) {
+		android.os.Process.killProcess(android.os.Process.myPid());
+		super.onDisabled(context);
+	}
+	
+	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int i=0; i < appWidgetIds.length; i++) {
