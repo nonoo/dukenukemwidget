@@ -117,6 +117,9 @@ public class DukeNukemWidgetService extends Service implements OnCompletionListe
 		}
 
 		MediaPlayer mp = MediaPlayer.create( this, soundRes );
+		if( mp == null )
+			return;
+
 		mp.setOnCompletionListener( this );
 		mp.setOnErrorListener( this );
 
