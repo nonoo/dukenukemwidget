@@ -1,0 +1,8 @@
+An Android widget which plays a random Duke Nukem quote in English and Hungarian.
+
+|![https://market.android.com/publish/images/PQAAABUAp-mCp071jRaU35hum0pS7SfgN4qy9a3MovLkRCXSVWadpuWajNcTK5ViYWte5VQiBt2mZ0_isYrpNpKb1r8AzfqVaXPt1aTFtwgg4YihlrMkkrTD1ymU.png](https://market.android.com/publish/images/PQAAABUAp-mCp071jRaU35hum0pS7SfgN4qy9a3MovLkRCXSVWadpuWajNcTK5ViYWte5VQiBt2mZ0_isYrpNpKb1r8AzfqVaXPt1aTFtwgg4YihlrMkkrTD1ymU.png)|![https://market.android.com/publish/images/PQAAAHeElsQJuIwUuLJNWGtg7aYkkslAypdTIYSaehdNarEenL9GnKWbPn0AQAkuq4RbpJcZAS1IdhHt3PMTbU3-VhoAzfqVaSWB31Pob2f16AXzNtsXVS1Iorww.png](https://market.android.com/publish/images/PQAAAHeElsQJuIwUuLJNWGtg7aYkkslAypdTIYSaehdNarEenL9GnKWbPn0AQAkuq4RbpJcZAS1IdhHt3PMTbU3-VhoAzfqVaSWB31Pob2f16AXzNtsXVS1Iorww.png)|
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+Hungarian version on AppBrain: http://www.appbrain.com/app/com.nonoo.dukenukem.widget.hun
+
+English version on AppBrain: http://www.appbrain.com/app/com.nonoo.dukenukem.widget
